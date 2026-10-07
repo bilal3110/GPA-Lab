@@ -1,190 +1,425 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GPA Lab - Academic Performance Tool</title>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="icon" href="assets/logo (2).png" type="icon">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="description" content="GPA Lab — calculate CGPA, semester GPA, and track class attendance. Built for university students." />
+  <title>GPA Lab — Academic Performance Tool</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236366f1' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 6.253v13'/%3E%3Cpath d='M12 6.253a4 4 0 0 1 4 4v0a4 4 0 0 1-8 0v0a4 4 0 0 1 4-4z'/%3E%3Cpath d='M4 20h16'/%3E%3C/svg%3E" />
 </head>
-
 <body>
-  <div class="container">
-    <div class="header">
-      <span class="logo">
-        <img src="assets/logo (2).png" alt="">
-      </span>
-      <p>Complete Academic Performance Tool with Advanced Features</p>
-    </div>
+  <div class="shell">
 
-    <div class="calculator-tabs">
-      <div class="tab-btn active" onclick="showCalculator('cgpa')">CGPA Calculator</div>
-      <div class="tab-btn" onclick="showCalculator('gpa')">GPA Calculator</div>
-      <div class="tab-btn" onclick="showCalculator('grade')">Grade to CGPA</div>
-      <div class="tab-btn" onclick="showCalculator('attendance')">Attendance Calculator</div>
-    </div>
+    <header class="brand-row" aria-label="App header">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+            <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+          </svg>
+        </span>
+        <div class="brand-text">
+          <strong>GPA Lab</strong>
+          <span>Academic performance for university students</span>
+        </div>
+      </div>
 
-    <!-- CGPA Calculator -->
-    <div id="cgpa-calc" class="calculator-section active">
-      <h2 class="section-title">CGPA Calculator</h2>
-      <div class="input-group">
-        <label>Add your semesters and their GPAs:</label>
-        <div id="semesters-container">
-          <div class="semester-group">
-            <div class="input-row">
-              <input type="text" placeholder="Semester Name (e.g., Semester 1)" class="semester-name">
-              <input type="number" step="0.01" min="0" max="4" placeholder="GPA (0-4)" class="semester-gpa">
-              <input type="number" step="1" min="1" placeholder="Credit Hours" class="semester-credits">
+      <div class="header-actions">
+        <button type="button" class="btn btn-secondary btn-sm" id="sampleBtn" aria-label="Load sample data">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+          Try sample data
+        </button>
+        <button type="button" class="btn btn-ghost btn-sm" id="resetBtn" aria-label="Reset all inputs">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/>
+          </svg>
+          Reset
+        </button>
+      </div>
+    </header>
+
+    <!-- Tab nav with sliding indicator -->
+    <nav class="tabs" role="tablist" aria-label="Calculators" id="tabs">
+      <span class="tab-indicator" aria-hidden="true"></span>
+      <button class="tab-btn" role="tab" aria-selected="true"  aria-controls="cgpa-calc"        data-tab="cgpa"        id="tab-cgpa">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-5"/>
+        </svg>
+        CGPA
+      </button>
+      <button class="tab-btn" role="tab" aria-selected="false" aria-controls="gpa-calc"         data-tab="gpa"         id="tab-gpa">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18"/>
+        </svg>
+        Semester GPA
+      </button>
+      <button class="tab-btn" role="tab" aria-selected="false" aria-controls="grade-calc"       data-tab="grade"       id="tab-grade">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 4h16v16H4z"/><path d="M8 4v16M16 4v16M4 8h16M4 16h16"/>
+        </svg>
+        Grades → CGPA
+      </button>
+      <button class="tab-btn" role="tab" aria-selected="false" aria-controls="attendance-calc"  data-tab="attendance"  id="tab-attendance">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>
+        </svg>
+        Attendance
+      </button>
+    </nav>
+
+    <!-- ============================ CGPA ============================ -->
+    <section id="cgpa-calc" class="card" role="tabpanel" aria-labelledby="tab-cgpa">
+      <header class="section-head">
+        <div>
+          <h2 class="section-title">Cumulative GPA</h2>
+          <p class="section-sub">Enter each semester's GPA and total credit hours. We'll compute your weighted CGPA across semesters.</p>
+        </div>
+        <div class="section-head-right">
+          <button type="button" class="btn btn-secondary btn-sm" id="cgpaAddSemester" data-add="cgpa">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+            Add semester
+          </button>
+        </div>
+      </header>
+
+      <div class="row-table" data-table="cgpa">
+        <div class="row-table-head row-cgcol" aria-hidden="true">
+          <span class="col-label">Semester</span>
+          <span class="col-label">GPA</span>
+          <span class="col-label">Credits</span>
+          <span></span>
+        </div>
+        <div class="row-table-rows" id="cgpa-rows" role="list"></div>
+      </div>
+      <button type="button" class="btn-add-row" data-add="cgpa">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;vertical-align:-3px;margin-right:4px;" aria-hidden="true">
+          <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+        </svg>
+        Add another semester
+      </button>
+
+      <!-- Empty state, shown when no rows -->
+      <div class="empty-state" id="cgpa-empty" hidden>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>
+        </svg>
+        <h4>No semesters yet</h4>
+        <p>Add your first semester to start tracking your cumulative GPA.</p>
+        <button type="button" class="btn btn-primary btn-sm" data-empty-add="cgpa">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+          Add semester
+        </button>
+      </div>
+
+      <div style="margin-top: 18px; display: flex; gap: 10px; flex-wrap: wrap;">
+        <button type="button" class="btn btn-primary" data-calc="cgpa">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h8M8 14h4"/>
+          </svg>
+          Calculate CGPA
+        </button>
+        <button type="button" class="btn btn-ghost" data-clear="cgpa">Clear all</button>
+      </div>
+
+      <!-- Result -->
+      <div class="result" id="cgpa-result" data-tier="" aria-live="polite">
+        <div class="result-grid">
+          <div class="result-hero">
+            <svg class="result-ring" viewBox="0 0 120 120" aria-hidden="true">
+              <defs>
+                <linearGradient id="ring-grad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%"  stop-color="#6366f1"/>
+                  <stop offset="100%" stop-color="#a855f7"/>
+                </linearGradient>
+              </defs>
+              <circle class="track" cx="60" cy="60" r="52"/>
+              <circle class="meter" cx="60" cy="60" r="52" stroke-dasharray="326.73" stroke-dashoffset="326.73"/>
+            </svg>
+            <div style="text-align:center;">
+              <div class="result-value" id="cgpa-value">0.00</div>
+              <div class="result-suffix">out of 4.00</div>
+            </div>
+          </div>
+          <div class="result-info">
+            <span class="result-classification" id="cgpa-classification">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+              <span id="cgpa-classification-text">—</span>
+            </span>
+            <h3 class="result-heading">Your cumulative GPA</h3>
+            <dl class="result-breakdown">
+              <div><dt>Semesters</dt><dd id="cgpa-sem-count">0</dd></div>
+              <div><dt>Total credits</dt><dd id="cgpa-credits">0</dd></div>
+              <div><dt>Quality points</dt><dd id="cgpa-points">0</dd></div>
+            </dl>
+            <div class="result-actions">
+              <button type="button" class="btn btn-secondary btn-sm" data-copy="cgpa">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                </svg>
+                Copy result
+              </button>
             </div>
           </div>
         </div>
-        <div style="margin: 20px 0;">
-          <button class="btn btn-secondary" onclick="addSemester()">Add Another Semester</button>
-          <button class="btn btn-success" onclick="calculateCGPA()">Calculate CGPA</button>
-        </div>
       </div>
-      <div id="cgpa-result" class="result-card">
-        <div class="result-value" id="cgpa-value">0.00</div>
-        <div class="result-label">Your CGPA</div>
-      </div>
-    </div>
+    </section>
 
-    <!-- GPA Calculator -->
-    <div id="gpa-calc" class="calculator-section">
-      <h2 class="section-title">GPA Calculator</h2>
-      <div class="grade-info">
-        <h4>Grade Scale (4.0 Scale)</h4>
-        <div class="grade-scale">
-          <div>A+ = 4.0</div>
-          <div>A = 4.0</div>
-          <div>A- = 3.7</div>
-          <div>B+ = 3.3</div>
-          <div>B = 3.0</div>
-          <div>B- = 2.7</div>
-          <div>C+ = 2.3</div>
-          <div>C = 2.0</div>
-          <div>D = 1.0</div>
-          <div>F = 0.0</div>
+    <!-- ============================ GPA ============================ -->
+    <section id="gpa-calc" class="card" role="tabpanel" aria-labelledby="tab-gpa" hidden>
+      <header class="section-head">
+        <div>
+          <h2 class="section-title">Semester GPA</h2>
+          <p class="section-sub">Enter each course, its grade, and credit hours to compute your GPA for a single semester.</p>
         </div>
-      </div>
-      <div class="input-group">
-        <label>Add your courses:</label>
-        <div id="courses-container">
-          <div class="input-row">
-            <input type="text" placeholder="Course Name" class="course-name">
-            <select class="course-grade">
-              <option value="">Select Grade</option>
-              <option value="4.0">A+ (4.0)</option>
-              <option value="4.0">A (4.0)</option>
-              <option value="3.7">A- (3.7)</option>
-              <option value="3.3">B+ (3.3)</option>
-              <option value="3.0">B (3.0)</option>
-              <option value="2.7">B- (2.7)</option>
-              <option value="2.3">C+ (2.3)</option>
-              <option value="2.0">C (2.0)</option>
-              <option value="1.0">D (1.0)</option>
-              <option value="0.0">F (0.0)</option>
-            </select>
-            <input type="number" step="1" min="1" placeholder="Credits" class="course-credits">
-          </div>
-        </div>
-        <div style="margin: 20px 0;">
-          <button class="btn btn-secondary" onclick="addCourse()">Add Another Course</button>
-          <button class="btn btn-success" onclick="calculateGPA()">Calculate GPA</button>
-        </div>
-      </div>
-      <div id="gpa-result" class="result-card">
-        <div class="result-value" id="gpa-value">0.00</div>
-        <div class="result-label">Your GPA</div>
-      </div>
-    </div>
-    <!-- Grade to CGPA -->
-    <div id="grade-calc" class="calculator-section">
-      <h2 class="section-title">Grade to CGPA Calculator</h2>
-      <div class="input-group">
-        <label>Enter your letter grades and credits:</label>
-        <div id="grade-courses-container">
-          <div class="input-row">
-            <input type="text" placeholder="Subject">
-            <select class="grade-letter">
-              <option value="">Select Grade</option>
-              <option value="4.0">A+</option>
-              <option value="4.0">A</option>
-              <option value="3.7">A-</option>
-              <option value="3.3">B+</option>
-              <option value="3.0">B</option>
-              <option value="2.7">B-</option>
-              <option value="2.3">C+</option>
-              <option value="2.0">C</option>
-              <option value="1.0">D</option>
-              <option value="0.0">F</option>
-            </select>
-            <input type="number" step="1" min="1" placeholder="Credits" class="grade-credits">
-          </div>
-        </div>
-        <div style="margin: 20px 0;">
-          <button class="btn btn-secondary" onclick="addGradeCourse()">Add Another Course</button>
-          <button class="btn btn-success" onclick="calculateGradeCGPA()">Calculate CGPA</button>
-        </div>
-      </div>
-      <div id="grade-result" class="result-card">
-        <div class="result-value" id="grade-cgpa-value">0.00</div>
-        <div class="result-label">Your CGPA from Grades</div>
-      </div>
-    </div>
+      </header>
 
-    <!-- Attendance Calculator -->
-    <div id="attendance-calc" class="calculator-section">
-      <h2 class="section-title">Attendance Calculator</h2>
-      <div class="attendance-grid">
-        <div class="attendance-card">
-          <h3>Calculate Attendance Percentage</h3>
-          <div class="input-group">
-            <label>Total Classes:</label>
-            <input type="number" id="total-classes" placeholder="Total classes held">
-          </div>
-          <div class="input-group">
-            <label>Classes Attended:</label>
-            <input type="number" id="attended-classes" placeholder="Classes you attended">
-          </div>
-          <button class="btn" onclick="calculateAttendance()">Calculate Attendance</button>
-          <div id="attendance-result" class="result-card">
-            <div class="result-value" id="attendance-percentage">0%</div>
-            <div class="result-label">Attendance Percentage</div>
-          </div>
+      <div class="grade-info" aria-label="4.0 grading scale">
+        <strong>4.0 grading scale</strong>
+        <div class="grade-scale" style="margin-top:8px;">
+          <span>A+ · 4.0</span><span>A · 4.0</span><span>A− · 3.7</span>
+          <span>B+ · 3.3</span><span>B · 3.0</span><span>B− · 2.7</span>
+          <span>C+ · 2.3</span><span>C · 2.0</span><span>D · 1.0</span><span>F · 0.0</span>
         </div>
+      </div>
 
-        <div class="attendance-card">
-          <h3>Classes Needed for Target</h3>
-          <div class="input-group">
-            <label>Current Attendance %:</label>
-            <input type="number" step="0.01" id="current-attendance" placeholder="Current percentage">
+      <div class="row-table" data-table="gpa">
+        <div class="row-table-head row-gpcol" aria-hidden="true">
+          <span class="col-label">Course</span>
+          <span class="col-label">Grade</span>
+          <span class="col-label">Credits</span>
+          <span></span>
+        </div>
+        <div class="row-table-rows" id="gpa-rows" role="list"></div>
+      </div>
+      <button type="button" class="btn-add-row" data-add="gpa">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;vertical-align:-3px;margin-right:4px;" aria-hidden="true">
+          <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+        </svg>
+        Add another course
+      </button>
+
+      <div style="margin-top: 18px; display: flex; gap: 10px; flex-wrap: wrap;">
+        <button type="button" class="btn btn-primary" data-calc="gpa">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h8M8 14h4"/>
+          </svg>
+          Calculate GPA
+        </button>
+        <button type="button" class="btn btn-ghost" data-clear="gpa">Clear all</button>
+      </div>
+
+      <div class="result" id="gpa-result" data-tier="" aria-live="polite">
+        <div class="result-grid">
+          <div class="result-hero">
+            <svg class="result-ring" viewBox="0 0 120 120" aria-hidden="true">
+              <circle class="track" cx="60" cy="60" r="52"/>
+              <circle class="meter" cx="60" cy="60" r="52" stroke-dasharray="326.73" stroke-dashoffset="326.73"/>
+            </svg>
+            <div style="text-align:center;">
+              <div class="result-value" id="gpa-value">0.00</div>
+              <div class="result-suffix">out of 4.00</div>
+            </div>
           </div>
-          <div class="input-group">
-            <label>Target Attendance %:</label>
-            <input type="number" step="0.01" id="target-attendance" placeholder="Desired percentage">
-          </div>
-          <div class="input-group">
-            <label>Total Classes So Far:</label>
-            <input type="number" id="current-total" placeholder="Classes held till now">
-          </div>
-          <button class="btn" onclick="calculateRequiredClasses()">Calculate Required</button>
-          <div id="required-result" class="result-card">
-            <div class="result-value" id="required-classes">0</div>
-            <div class="result-label">Classes Needed</div>
+          <div class="result-info">
+            <span class="result-classification">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+              <span id="gpa-classification-text">—</span>
+            </span>
+            <h3 class="result-heading">Your semester GPA</h3>
+            <dl class="result-breakdown">
+              <div><dt>Courses</dt><dd id="gpa-course-count">0</dd></div>
+              <div><dt>Total credits</dt><dd id="gpa-credits">0</dd></div>
+              <div><dt>Quality points</dt><dd id="gpa-points">0</dd></div>
+            </dl>
+            <div class="result-actions">
+              <button type="button" class="btn btn-secondary btn-sm" data-copy="gpa">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                </svg>
+                Copy result
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <footer>
-      <p>&copy; <span id="year"></span> GPA LAB. Developed with ❤ by <a href="https://bilaldeveloper.vercel.app/">Bila
-          A.</a></p>
+    <!-- ============================ Grade → CGPA ============================ -->
+    <section id="grade-calc" class="card" role="tabpanel" aria-labelledby="tab-grade" hidden>
+      <header class="section-head">
+        <div>
+          <h2 class="section-title">Course grades → CGPA</h2>
+          <p class="section-sub">Enter individual course grades across one or more semesters. Useful when you only have letter grades on hand.</p>
+        </div>
+      </header>
+
+      <div class="row-table" data-table="grade">
+        <div class="row-table-head row-grcol" aria-hidden="true">
+          <span class="col-label">Course</span>
+          <span class="col-label">Grade</span>
+          <span class="col-label">Credits</span>
+          <span></span>
+        </div>
+        <div class="row-table-rows" id="grade-rows" role="list"></div>
+      </div>
+      <button type="button" class="btn-add-row" data-add="grade">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;vertical-align:-3px;margin-right:4px;" aria-hidden="true">
+          <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+        </svg>
+        Add another course
+      </button>
+
+      <div style="margin-top: 18px; display: flex; gap: 10px; flex-wrap: wrap;">
+        <button type="button" class="btn btn-primary" data-calc="grade">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h8M8 14h4"/>
+          </svg>
+          Calculate CGPA
+        </button>
+        <button type="button" class="btn btn-ghost" data-clear="grade">Clear all</button>
+      </div>
+
+      <div class="result" id="grade-result" data-tier="" aria-live="polite">
+        <div class="result-grid">
+          <div class="result-hero">
+            <svg class="result-ring" viewBox="0 0 120 120" aria-hidden="true">
+              <circle class="track" cx="60" cy="60" r="52"/>
+              <circle class="meter" cx="60" cy="60" r="52" stroke-dasharray="326.73" stroke-dashoffset="326.73"/>
+            </svg>
+            <div style="text-align:center;">
+              <div class="result-value" id="grade-cgpa-value">0.00</div>
+              <div class="result-suffix">out of 4.00</div>
+            </div>
+          </div>
+          <div class="result-info">
+            <span class="result-classification">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+              <span id="grade-classification-text">—</span>
+            </span>
+            <h3 class="result-heading">CGPA from course grades</h3>
+            <dl class="result-breakdown">
+              <div><dt>Courses</dt><dd id="grade-course-count">0</dd></div>
+              <div><dt>Total credits</dt><dd id="grade-credits">0</dd></div>
+              <div><dt>Quality points</dt><dd id="grade-points">0</dd></div>
+            </dl>
+            <div class="result-actions">
+              <button type="button" class="btn btn-secondary btn-sm" data-copy="grade">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                </svg>
+                Copy result
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================ Attendance ============================ -->
+    <section id="attendance-calc" class="card" role="tabpanel" aria-labelledby="tab-attendance" hidden>
+      <header class="section-head">
+        <div>
+          <h2 class="section-title">Attendance tracker</h2>
+          <p class="section-sub">Track your current attendance percentage, or figure out how many more you need to reach a target.</p>
+        </div>
+      </header>
+
+      <div class="field-grid" style="grid-template-columns: 1fr 1fr; margin-top: 22px;">
+        <!-- Card A: Current percentage -->
+        <div class="field">
+          <h3 style="margin:0 0 4px;font-size:15px;">Current percentage</h3>
+          <p class="section-sub" style="margin:0 0 14px;">Quick attendance check from total vs. attended classes.</p>
+          <label for="total-classes">Total classes held</label>
+          <input type="number" id="total-classes" placeholder="e.g. 40" min="0" inputmode="numeric" />
+          <label for="attended-classes">Classes attended</label>
+          <input type="number" id="attended-classes" placeholder="e.g. 36" min="0" inputmode="numeric" />
+          <button type="button" class="btn btn-primary btn-sm" data-calc="attendance" style="margin-top:14px; align-self:flex-start;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h8M8 14h4"/>
+            </svg>
+            Calculate %
+          </button>
+
+          <div class="result" id="attendance-result" data-tier="" aria-live="polite" style="margin-top: 18px;">
+            <div class="result-grid">
+              <div class="result-hero" style="width:120px;height:120px;">
+                <svg class="result-ring" viewBox="0 0 120 120" aria-hidden="true">
+                  <circle class="track" cx="60" cy="60" r="52"/>
+                  <circle class="meter" cx="60" cy="60" r="52" stroke-dasharray="326.73" stroke-dashoffset="326.73"/>
+                </svg>
+                <div style="text-align:center;">
+                  <div class="result-value" id="attendance-percentage" style="font-size:32px;">0%</div>
+                </div>
+              </div>
+              <div class="result-info">
+                <span class="result-classification" id="attendance-classification-text">—</span>
+                <h3 class="result-heading">Current attendance</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card B: Target -->
+        <div class="field">
+          <h3 style="margin:0 0 4px;font-size:15px;">Classes needed for target</h3>
+          <p class="section-sub" style="margin:0 0 14px;">How many consecutive classes do you need to attend to hit your goal?</p>
+          <label for="current-attendance">Current attendance (%)</label>
+          <input type="number" id="current-attendance" placeholder="e.g. 78.5" min="0" max="100" step="0.1" inputmode="decimal" />
+          <label for="target-attendance">Target attendance (%)</label>
+          <input type="number" id="target-attendance" placeholder="e.g. 85" min="0" max="100" step="0.1" inputmode="decimal" />
+          <label for="current-total">Total classes so far</label>
+          <input type="number" id="current-total" placeholder="e.g. 40" min="0" inputmode="numeric" />
+          <button type="button" class="btn btn-primary btn-sm" data-calc="required" style="margin-top:14px; align-self:flex-start;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h8M8 14h4"/>
+            </svg>
+            Calculate
+          </button>
+
+          <div class="result" id="required-result" data-tier="" aria-live="polite" style="margin-top: 18px;">
+            <div class="result-grid">
+              <div class="result-hero" style="width:120px;height:120px;">
+                <svg class="result-ring" viewBox="0 0 120 120" aria-hidden="true">
+                  <circle class="track" cx="60" cy="60" r="52"/>
+                  <circle class="meter" cx="60" cy="60" r="52" stroke-dasharray="326.73" stroke-dashoffset="326.73"/>
+                </svg>
+                <div style="text-align:center;">
+                  <div class="result-value" id="required-classes" style="font-size:36px;">0</div>
+                  <div class="result-suffix">classes</div>
+                </div>
+              </div>
+              <div class="result-info">
+                <span class="result-classification" id="required-classification-text">—</span>
+                <h3 class="result-heading">More classes to attend</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footnote">
+      <p>© <span id="year"></span> GPA Lab · Built for university students · <a href="https://bilaldeveloper.vercel.app/" target="_blank" rel="noopener">Bilal A.</a></p>
     </footer>
-
   </div>
+
+  <!-- Toast region: aria-live so screen readers announce feedback -->
+  <div class="toast-stack" id="toastStack" aria-live="polite" aria-atomic="true"></div>
+
   <script src="js/script.js"></script>
 </body>
-
 </html>
