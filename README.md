@@ -11,12 +11,12 @@ GPA Lab is a comprehensive, web-based academic tool designed to help students tr
   - Calculate current attendance percentage.
   - Determine the number of classes needed to reach a target attendance percentage.
 - **Responsive Design**: Optimized for both desktop and mobile devices.
-- **Modern UI**: Clean, intuitive interface with a professional color scheme.
+- **Modern UI**: A responsive, warm paper-and-forest-green interface designed for comfortable academic use.
 
 ## 🛠️ Built With
 
 - **HTML5**: For semantic structure.
-- **Vanilla CSS3**: Custom styling with a modern gradient-based design and responsive layouts.
+- **Vanilla CSS3**: Custom styling with centralized Field Notes color tokens, automatic light/dark palettes, and responsive layouts.
 - **JavaScript (ES6+)**: Dynamic calculations and DOM manipulation.
 
 ## 📂 Project Structure
