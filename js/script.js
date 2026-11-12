@@ -441,17 +441,11 @@
       return;
     }
 
-    let display, targetMet, unreachable = false;
-    if (tgt <= cur) {
-      display = 0;
-      targetMet = true;
-    } else if (tgt >= 100) {
-      display = 0;
-      targetMet = false;
-      unreachable = true;
-      const x = Math.ceil((tgt * tot - 100 * attended) / (100 - tgt) - 1e-9);
-      display = Math.max(0, x);
-      targetMet = false;
+    const targetMet = tgt <= cur;
+    const unreachable = tgt === 100 && !targetMet;
+    let display = 0;
+    if (!targetMet && !unreachable) {
+      display = Math.max(0, Math.ceil((tot * (tgt - cur)) / (100 - tgt) - 1e-9));
     }
 
     renderResult({
