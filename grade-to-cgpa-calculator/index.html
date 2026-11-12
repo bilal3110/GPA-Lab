@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light" />
+  
+  <!-- Primary Meta Tags -->
+  <title>Grade to CGPA Calculator | Convert Letter Grades to GPA — GPA Lab</title>
+  <meta name="title" content="Grade to CGPA Calculator | Convert Letter Grades to GPA — GPA Lab" />
+  <meta name="description" content="Convert your course letter grades into cumulative CGPA on a 4.0 scale. Weighted course credits formula, grading scale comparison, and free online converter." />
+  <meta name="keywords" content="grade to CGPA calculator, letter grade to GPA, convert grades to CGPA, grade points calculator, 4.0 grading scale converter, course grades to GPA, university grade converter" />
+  <meta name="author" content="Bilal A." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://gpa-lab.vercel.app/grade-to-cgpa-calculator/" />
+
+  <!-- Google Site Verification & AdSense -->
+  <meta name="google-site-verification" content="ByYxuuN9iqRJRVVobKN5QlBEx7YKzridIw8mNf0FFVc" />
+  <meta name="google-adsense-account" content="ca-pub-8901367047024233" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://gpa-lab.vercel.app/grade-to-cgpa-calculator/" />
+  <meta property="og:title" content="Grade to CGPA Calculator | Convert Letter Grades to GPA — GPA Lab" />
+  <meta property="og:description" content="Convert your course letter grades into cumulative CGPA on a 4.0 scale. Weighted course credits formula, grading scale comparison, and free online converter." />
+  <meta property="og:image" content="https://gpa-lab.vercel.app/assets/og-image.png" />
+  <meta property="og:site_name" content="GPA Lab" />
+  <meta property="og:locale" content="en_US" />
+
+  <!-- Twitter / X Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://gpa-lab.vercel.app/grade-to-cgpa-calculator/" />
+  <meta name="twitter:title" content="Grade to CGPA Calculator | Convert Letter Grades to GPA — GPA Lab" />
+  <meta name="twitter:description" content="Convert your course letter grades into cumulative CGPA on a 4.0 scale. Weighted course credits formula, grading scale comparison, and free online converter." />
+  <meta name="twitter:image" content="https://gpa-lab.vercel.app/assets/og-image.png" />
+
+  <!-- Favicon & Stylesheet -->
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23244a3c' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 6.253v13'/%3E%3Cpath d='M12 6.253a4 4 0 0 1 4 4v0a4 4 0 0 1-8 0v0a4 4 0 0 1 4-4z'/%3E%3Cpath d='M4 20h16'/%3E%3C/svg%3E" />
+
+  <!-- Structured Data: JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://gpa-lab.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Grade to CGPA Calculator",
+            "item": "https://gpa-lab.vercel.app/grade-to-cgpa-calculator/"
+          }
+        ]
+      },
+      {
+        "@type": "WebApplication",
+        "@id": "https://gpa-lab.vercel.app/grade-to-cgpa-calculator/#webapp",
+        "name": "Course Grades to CGPA Calculator",
+        "url": "https://gpa-lab.vercel.app/grade-to-cgpa-calculator/",
+        "applicationCategory": "EducationalApplication",
+        "operatingSystem": "All modern web browsers",
+        "browserRequirements": "Requires JavaScript",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "description": "Convert individual university course letter grades into cumulative CGPA weighted by course credit hours on a 4.0 grading scale."
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://gpa-lab.vercel.app/grade-to-cgpa-calculator/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the difference between an A+ and an A on a 4.0 scale?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "On standard 4.0 grading systems (including HEC Pakistan and most US universities), both A+ and A carry 4.00 grade points because 4.00 is the mathematical ceiling of the unweighted scale. An A+ provides distinction on your transcript but does not exceed 4.00 points."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do course credit hours affect letter grade conversion?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Course credit hours serve as multipliers for grade points. A high grade in a 4-credit course produces twice the quality points of the same grade in a 2-credit course, significantly increasing its positive effect on your CGPA."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I convert raw percentage scores directly to CGPA?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "In a semester system, percentage scores are first converted into letter grades according to your university's official grading bracket (e.g., 85%+ = A). The letter grade points (A = 4.0) are then credit-weighted to compute CGPA. You cannot simply divide your percentage by 25."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What grade point value does a B grade represent?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A standard B grade corresponds to 3.00 grade points, representing good, above-average academic performance. A B+ corresponds to 3.30 grade points, and a B- corresponds to 2.70 grade points."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body data-tool="grade">
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div class="shell">
+
+    <!-- App Header -->
+    <header class="brand-row" aria-label="App header">
+      <div class="brand">
+        <a href="/" class="brand-link" aria-label="GPA Lab Home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+              <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+            </svg>
+          </span>
+          <div class="brand-text">
+            <strong>GPA Lab</strong>
+            <span>Academic performance for university students</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="header-actions">
+        <button type="button" class="btn btn-secondary btn-sm" id="sampleBtn" aria-label="Load sample letter grades">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+          Try sample data
+        </button>
+        <button type="button" class="btn btn-ghost btn-sm" id="resetBtn" aria-label="Reset all inputs">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/>
+          </svg>
+          Reset
+        </button>
+      </div>
+    </header>
+
+    <!-- Breadcrumb Navigation -->
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <ol class="breadcrumb-list">
+        <li><a href="/">Home</a></li>
+        <li class="breadcrumb-separator" aria-hidden="true">/</li>
+        <li class="breadcrumb-current" aria-current="page">Grade to CGPA Calculator</li>
+      </ol>
+    </nav>
+
+    <!-- Calculator Navigation Bar -->
+    <nav class="tabs" aria-label="Calculators navigation">
+      <a href="/cgpa-calculator/" class="tab-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-5"/>
+        </svg>
+        CGPA
+      </a>
+      <a href="/semester-gpa-calculator/" class="tab-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18"/>
+        </svg>
+        Semester GPA
+      </a>
+      <a href="/grade-to-cgpa-calculator/" class="tab-btn is-active" aria-current="page">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 4h16v16H4z"/><path d="M8 4v16M16 4v16M4 8h16M4 16h16"/>
+        </svg>
+        Grades → CGPA
+      </a>
+      <a href="/attendance-calculator/" class="tab-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>
+        </svg>
+        Attendance
+      </a>
+    </nav>
+
+    <main id="main-content">
+      <!-- Calculator Tool Card -->
+      <section id="grade-calc" class="card" aria-labelledby="grade-h1">
+        <header class="section-head">
+          <div>
+            <h1 id="grade-h1" class="page-h1" style="margin-bottom:4px;">Course Grades to CGPA Calculator</h1>
+            <p class="section-sub">Enter individual course grades and credit hours to convert letter grades directly into cumulative CGPA.</p>
+          </div>
+        </header>
+
+        <div class="row-table" data-table="grade">
+          <div class="row-table-head row-grcol" aria-hidden="true">
+            <span class="col-label">Course</span>
+            <span class="col-label">Grade</span>
+            <span class="col-label">Credits</span>
+            <span></span>
+          </div>
+          <div class="row-table-rows" id="grade-rows" role="list"></div>
+        </div>
+        <button type="button" class="btn-add-row" data-add="grade">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;vertical-align:-3px;margin-right:4px;" aria-hidden="true">
+            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+          Add another course
+        </button>
+
+        <div style="margin-top: 18px; display: flex; gap: 10px; flex-wrap: wrap;">
+          <button type="button" class="btn btn-primary" data-calc="grade">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h8M8 14h4"/>
+            </svg>
+            Calculate CGPA
+          </button>
+          <button type="button" class="btn btn-ghost" data-clear="grade">Clear all</button>
+        </div>
+
+        <div class="result" id="grade-result" data-tier="" aria-live="polite">
+          <div class="result-grid">
+            <div class="result-hero">
+              <svg class="result-ring" viewBox="0 0 120 120" aria-hidden="true">
+                <circle class="track" cx="60" cy="60" r="52"/>
+                <circle class="meter" cx="60" cy="60" r="52" stroke-dasharray="326.73" stroke-dashoffset="326.73"/>
+              </svg>
+              <div style="text-align:center;">
+                <div class="result-value" id="grade-cgpa-value">0.00</div>
+                <div class="result-suffix">out of 4.00</div>
+              </div>
+            </div>
+            <div class="result-info">
+              <span class="result-classification">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+                <span id="grade-classification-text">—</span>
+              </span>
+              <h3 class="result-heading">CGPA from course grades</h3>
+              <dl class="result-breakdown">
+                <div><dt>Courses</dt><dd id="grade-course-count">0</dd></div>
+                <div><dt>Total credits</dt><dd id="grade-credits">0</dd></div>
+                <div><dt>Quality points</dt><dd id="grade-points">0</dd></div>
+              </dl>
+              <div class="result-actions">
+                <button type="button" class="btn btn-secondary btn-sm" data-copy="grade">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                  </svg>
+                  Copy result
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ IN-DEPTH GRADE CONVERSION GUIDE ============================ -->
+      <section class="content-wrap" aria-label="Grade Conversion Guide">
+
+        <!-- Understanding Letter Grades -->
+        <article class="guide-card">
+          <h2>Understanding University Letter Grades &amp; Quality Points</h2>
+          <p>University transcripts record academic achievements as <strong>letter grades</strong> (e.g., A, B+, C). To evaluate your cumulative performance across varying courses and disciplines, universities convert these letter grades into standardized numerical <strong>Grade Points</strong> on a 4.0 scale.</p>
+          <p>This conversion allows courses of varying difficulty and credit allocations to be compiled into a single representative metric: your <strong>Cumulative Grade Point Average (CGPA)</strong>.</p>
+        </article>
+
+        <!-- Standard 4.0 Scale Table -->
+        <article class="guide-card">
+          <h2>The 4.0 Letter Grade Conversion Scale</h2>
+          <p>GPA Lab adheres to the standard 4.0 grading scale endorsed by the Higher Education Commission (HEC) of Pakistan and globally adopted across North American and European universities:</p>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Letter Grade</th>
+                  <th>Grade Points</th>
+                  <th>HEC Pakistan Standard Marks</th>
+                  <th>Academic Standing</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>A+</strong></td>
+                  <td>4.00</td>
+                  <td>85% and above</td>
+                  <td>Exceptional Distinction</td>
+                </tr>
+                <tr>
+                  <td><strong>A</strong></td>
+                  <td>4.00</td>
+                  <td>80% – 84% (or 85%+)</td>
+                  <td>First Class Honours</td>
+                </tr>
+                <tr>
+                  <td><strong>A−</strong></td>
+                  <td>3.70</td>
+                  <td>80% – 84%</td>
+                  <td>Dean's Honour List</td>
+                </tr>
+                <tr>
+                  <td><strong>B+</strong></td>
+                  <td>3.30</td>
+                  <td>75% – 79%</td>
+                  <td>Very Good</td>
+                </tr>
+                <tr>
+                  <td><strong>B</strong></td>
+                  <td>3.00</td>
+                  <td>70% – 74%</td>
+                  <td>Good Standing</td>
+                </tr>
+                <tr>
+                  <td><strong>B−</strong></td>
+                  <td>2.70</td>
+                  <td>65% – 69%</td>
+                  <td>Above Average</td>
+                </tr>
+                <tr>
+                  <td><strong>C+</strong></td>
+                  <td>2.30</td>
+                  <td>61% – 64%</td>
+                  <td>Average Standing</td>
+                </tr>
+                <tr>
+                  <td><strong>C</strong></td>
+                  <td>2.00</td>
+                  <td>58% – 60%</td>
+                  <td>Minimum Passing Standard</td>
+                </tr>
+                <tr>
+                  <td><strong>D</strong></td>
+                  <td>1.00</td>
+                  <td>50% – 57%</td>
+                  <td>Conditional Credit</td>
+                </tr>
+                <tr>
+                  <td><strong>F</strong></td>
+                  <td>0.00</td>
+                  <td>Below 50%</td>
+                  <td>Failing Grade / Must Repeat</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p><em>Important Note on University Variations: Grading thresholds are set autonomously by academic senates. For example, some universities in Pakistan (such as FAST-NUCES or LUMS) use relative grading or specific percentage thresholds (e.g., 86%+ for an A, or distinct points for A vs A-). Always verify your department's published grading handbook.</em></p>
+        </article>
+
+        <!-- The Calculation Formula -->
+        <article class="guide-card">
+          <h2>The Weighted Course Conversion Formula</h2>
+          <p>To convert multiple course grades into a cumulative CGPA, every course's grade points must be multiplied by that course's credit hours:</p>
+
+          <div class="formula-box">
+            <div class="formula-title">Grade-to-CGPA Formula</div>
+            <div class="formula-math">
+              CGPA = ∑ (Grade Points for Letter Grade_i × Course Credits_i) / ∑ (Course Credits_i)
+            </div>
+            <ul class="formula-legend">
+              <li><strong>Grade Points:</strong> The numerical value of the selected letter grade (from the 4.0 scale).</li>
+              <li><strong>Course Credits:</strong> The official credit weight of the course (e.g., 3 credits for a lecture course, 1 credit for a lab).</li>
+              <li><strong>Quality Points:</strong> <code>Grade Points × Course Credits</code>.</li>
+              <li><strong>Total Credits:</strong> The sum of all course credit hours included in the calculation.</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- Worked Numerical Example -->
+        <article class="guide-card">
+          <h2>Worked Example: Converting 4 Courses to CGPA</h2>
+          <p>Suppose you received the following results across four university courses:</p>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Course Title</th>
+                  <th>Letter Grade</th>
+                  <th>Scale Grade Points</th>
+                  <th>Credit Hours</th>
+                  <th>Quality Points</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Linear Algebra</strong></td>
+                  <td>B+</td>
+                  <td>3.30</td>
+                  <td>3</td>
+                  <td>3.30 × 3 = <strong>9.90</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>Probability &amp; Statistics</strong></td>
+                  <td>B</td>
+                  <td>3.00</td>
+                  <td>3</td>
+                  <td>3.00 × 3 = <strong>9.00</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>Classical Mechanics</strong></td>
+                  <td>B−</td>
+                  <td>2.70</td>
+                  <td>4</td>
+                  <td>2.70 × 4 = <strong>10.80</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>Technical Communication</strong></td>
+                  <td>A</td>
+                  <td>4.00</td>
+                  <td>2</td>
+                  <td>4.00 × 2 = <strong>8.00</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>Totals</strong></td>
+                  <td>—</td>
+                  <td>—</td>
+                  <td><strong>12 credits</strong></td>
+                  <td><strong>37.70 quality points</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="example-box">
+            <h4>CGPA Result</h4>
+            <p><code>CGPA = 37.70 Quality Points / 12 Total Credits = 3.1416... ≈ 3.14</code></p>
+            <p>Your calculated CGPA is <strong>3.14 out of 4.00</strong> (Solid Standing / B+ tier).</p>
+          </div>
+        </article>
+
+        <!-- FAQs -->
+        <article class="guide-card">
+          <h2>Frequently Asked Questions About Grade Conversions</h2>
+          <div class="faq-list">
+            <details class="faq-item" open>
+              <summary class="faq-question">What is the difference between an A+ and an A on a 4.0 scale?</summary>
+              <div class="faq-answer">
+                <p>On standard 4.0 grading systems (including HEC Pakistan and most US universities), both A+ and A carry 4.00 grade points because 4.00 is the mathematical ceiling of the unweighted scale. An A+ provides distinction on your transcript but does not exceed 4.00 points.</p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary class="faq-question">How do course credit hours affect letter grade conversion?</summary>
+              <div class="faq-answer">
+                <p>Course credit hours serve as multipliers for grade points. A high grade in a 4-credit course produces twice the quality points of the same grade in a 2-credit course, significantly increasing its positive effect on your CGPA.</p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary class="faq-question">Can I convert raw percentage scores directly to CGPA?</summary>
+              <div class="faq-answer">
+                <p>In a semester system, percentage scores are first converted into letter grades according to your university's official grading bracket (e.g., 85%+ = A). The letter grade points (A = 4.0) are then credit-weighted to compute CGPA. You cannot simply divide your percentage by 25.</p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary class="faq-question">What grade point value does a B grade represent?</summary>
+              <div class="faq-answer">
+                <p>A standard B grade corresponds to 3.00 grade points, representing good, above-average academic performance. A B+ corresponds to 3.30 grade points, and a B- corresponds to 2.70 grade points.</p>
+              </div>
+            </details>
+          </div>
+        </article>
+
+        <!-- Related Tools -->
+        <article class="guide-card">
+          <h2>Related Calculators</h2>
+          <div class="tools-nav-grid">
+            <a href="/cgpa-calculator/" class="tool-nav-card">
+              <span class="tool-nav-card-title">Cumulative GPA (CGPA) Calculator →</span>
+              <p class="tool-nav-card-desc">Calculate multi-semester CGPA using semester totals.</p>
+            </a>
+            <a href="/semester-gpa-calculator/" class="tool-nav-card">
+              <span class="tool-nav-card-title">Semester GPA Calculator →</span>
+              <p class="tool-nav-card-desc">Calculate your single-term GPA with precision.</p>
+            </a>
+            <a href="/attendance-calculator/" class="tool-nav-card">
+              <span class="tool-nav-card-title">Attendance Tracker →</span>
+              <p class="tool-nav-card-desc">Verify your exam attendance eligibility.</p>
+            </a>
+          </div>
+        </article>
+
+      </section>
+    </main>
+
+    <!-- Page Footer -->
+    <footer class="footnote">
+      <p style="margin-bottom: 8px;">
+        <a href="/">Home</a> · 
+        <a href="/cgpa-calculator/">CGPA Calculator</a> · 
+        <a href="/semester-gpa-calculator/">Semester GPA</a> · 
+        <a href="/grade-to-cgpa-calculator/">Grades to CGPA</a> · 
+        <a href="/attendance-calculator/">Attendance Tracker</a>
+      </p>
+      <p>© <span id="year"></span> GPA Lab · Built for university students · Developed with love by <a href="https://bilaldeveloper.vercel.app/" target="_blank" rel="noopener">Bilal A.</a></p>
+    </footer>
+  </div>
+
+  <div class="toast-stack" id="toastStack" aria-live="polite" aria-atomic="true"></div>
+  <script src="../js/script.js"></script>
+</body>
+</html>

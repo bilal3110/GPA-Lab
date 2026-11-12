@@ -1,0 +1,8 @@
+# robots.txt for GPA Lab
+# Production URL: https://gpa-lab.vercel.app/
+
+User-agent: *
+Allow: /
+
+# Sitemap Index
+Sitemap: https://gpa-lab.vercel.app/sitemap.xml

@@ -77,12 +77,25 @@ No package installation, server, or build step is required.
 
 ```text
 GPA-Lab/
-├── assets/       # Logo images
+├── assets/                  # Logo and Open Graph social preview images
+│   ├── og-image.png         # Optimized 1200x630 social card
+│   └── logo.png             # Structured data logo asset
 ├── css/
-│   └── style.css # Layout, responsive styling, and visual design
+│   └── style.css            # Responsive layout, color tokens, and educational styling
 ├── js/
-│   └── script.js # Calculator logic, validation, and browser storage
-├── index.html    # App markup and calculator forms
+│   └── script.js            # Unified calculator logic, validation, and LocalStorage
+├── cgpa-calculator/         # Dedicated Cumulative GPA page & in-depth guide
+│   └── index.html
+├── semester-gpa-calculator/ # Dedicated Semester GPA (SGPA) page & guide
+│   └── index.html
+├── grade-to-cgpa-calculator/# Dedicated Course Grades to CGPA converter & guide
+│   └── index.html
+├── attendance-calculator/   # Dedicated University Attendance & Target tracker
+│   └── index.html
+├── robots.txt               # Search crawler permissions and sitemap reference
+├── sitemap.xml              # XML Sitemap for search engines
+├── vercel.json              # Vercel clean URLs, trailing slash, and caching rules
+├── index.html               # Main entry point & unified calculator hub
 └── README.md
 ```
 

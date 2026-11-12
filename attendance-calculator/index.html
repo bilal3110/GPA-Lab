@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light" />
+  
+  <!-- Primary Meta Tags -->
+  <title>Attendance Calculator | University Attendance &amp; Target Tracker — GPA Lab</title>
+  <meta name="title" content="Attendance Calculator | University Attendance &amp; Target Tracker — GPA Lab" />
+  <meta name="description" content="Calculate your current class attendance percentage and find out exactly how many consecutive classes you must attend to reach 75%, 80%, or 85% attendance." />
+  <meta name="keywords" content="attendance calculator, attendance percentage calculator, university attendance calculator, how many classes to reach 75 attendance, target attendance calculator, attendance tracker university, calculate attendance percentage" />
+  <meta name="author" content="Bilal A." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://gpa-lab.vercel.app/attendance-calculator/" />
+
+  <!-- Google Site Verification & AdSense -->
+  <meta name="google-site-verification" content="ByYxuuN9iqRJRVVobKN5QlBEx7YKzridIw8mNf0FFVc" />
+  <meta name="google-adsense-account" content="ca-pub-8901367047024233" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://gpa-lab.vercel.app/attendance-calculator/" />
+  <meta property="og:title" content="Attendance Calculator | University Attendance &amp; Target Tracker — GPA Lab" />
+  <meta property="og:description" content="Calculate your current class attendance percentage and find out exactly how many consecutive classes you must attend to reach 75%, 80%, or 85% attendance." />
+  <meta property="og:image" content="https://gpa-lab.vercel.app/assets/og-image.png" />
+  <meta property="og:site_name" content="GPA Lab" />
+  <meta property="og:locale" content="en_US" />
+
+  <!-- Twitter / X Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://gpa-lab.vercel.app/attendance-calculator/" />
+  <meta name="twitter:title" content="Attendance Calculator | University Attendance &amp; Target Tracker — GPA Lab" />
+  <meta name="twitter:description" content="Calculate your current class attendance percentage and find out exactly how many consecutive classes you must attend to reach 75%, 80%, or 85% attendance." />
+  <meta name="twitter:image" content="https://gpa-lab.vercel.app/assets/og-image.png" />
+
+  <!-- Favicon & Stylesheet -->
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23244a3c' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 6.253v13'/%3E%3Cpath d='M12 6.253a4 4 0 0 1 4 4v0a4 4 0 0 1-8 0v0a4 4 0 0 1 4-4z'/%3E%3Cpath d='M4 20h16'/%3E%3C/svg%3E" />
+
+  <!-- Structured Data: JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://gpa-lab.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Attendance Calculator",
+            "item": "https://gpa-lab.vercel.app/attendance-calculator/"
+          }
+        ]
+      },
+      {
+        "@type": "WebApplication",
+        "@id": "https://gpa-lab.vercel.app/attendance-calculator/#webapp",
+        "name": "University Attendance & Target Tracker",
+        "url": "https://gpa-lab.vercel.app/attendance-calculator/",
+        "applicationCategory": "EducationalApplication",
+        "operatingSystem": "All modern web browsers",
+        "browserRequirements": "Requires JavaScript",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "description": "Calculate current class attendance percentage and determine the exact number of consecutive upcoming classes required to reach a target percentage like 75% or 80%."
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://gpa-lab.vercel.app/attendance-calculator/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How is attendance percentage calculated?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Attendance percentage is calculated using the formula: (Classes Attended / Total Classes Held) × 100. For example, attending 36 out of 40 lectures equals 90% attendance."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you calculate how many consecutive classes you need to reach 75% attendance?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The required consecutive classes formula is: ceil((Target% × Total Held - 100 × Attended) / (100 - Target%)). For example, if you attended 26 out of 40 classes (65%), you must attend ceil((75 × 40 - 100 × 26) / (100 - 75)) = ceil((3000 - 2600) / 25) = 16 consecutive classes without missing any."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why is 75% attendance mandatory in universities?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "In Pakistan (under Higher Education Commission guidelines) and in universities across the globe, 75% attendance is the mandatory threshold ensuring students engage with coursework. Falling below 75% results in examination debarment or an FA (Fail Attendance) grade."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is it possible to reach 100% attendance if I have missed one class?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. Once a single class has been missed, achieving 100% attendance is mathematically impossible because the ratio of attended to total classes will always remain strictly less than 1, regardless of how many future classes you attend."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body data-tool="attendance">
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div class="shell">
+
+    <!-- App Header -->
+    <header class="brand-row" aria-label="App header">
+      <div class="brand">
+        <a href="/" class="brand-link" aria-label="GPA Lab Home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+              <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+            </svg>
+          </span>
+          <div class="brand-text">
+            <strong>GPA Lab</strong>
+            <span>Academic performance for university students</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="header-actions">
+        <button type="button" class="btn btn-secondary btn-sm" id="sampleBtn" aria-label="Load sample attendance">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+          Try sample data
+        </button>
+        <button type="button" class="btn btn-ghost btn-sm" id="resetBtn" aria-label="Reset all inputs">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/>
+          </svg>
+          Reset
+        </button>
+      </div>
+    </header>
+
+    <!-- Breadcrumb Navigation -->
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <ol class="breadcrumb-list">
+        <li><a href="/">Home</a></li>
+        <li class="breadcrumb-separator" aria-hidden="true">/</li>
+        <li class="breadcrumb-current" aria-current="page">Attendance Calculator</li>
+      </ol>
+    </nav>
+
+    <!-- Calculator Navigation Bar -->
+    <nav class="tabs" aria-label="Calculators navigation">
+      <a href="/cgpa-calculator/" class="tab-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-5"/>
+        </svg>
+        CGPA
+      </a>
+      <a href="/semester-gpa-calculator/" class="tab-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18"/>
+        </svg>
+        Semester GPA
+      </a>
+      <a href="/grade-to-cgpa-calculator/" class="tab-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 4h16v16H4z"/><path d="M8 4v16M16 4v16M4 8h16M4 16h16"/>
+        </svg>
+        Grades → CGPA
+      </a>
+      <a href="/attendance-calculator/" class="tab-btn is-active" aria-current="page">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>
+        </svg>
+        Attendance
+      </a>
+    </nav>
+
+    <main id="main-content">
+      <!-- Calculator Tool Card -->
+      <section id="attendance-calc" class="card" aria-labelledby="att-h1">
+        <header class="section-head">
+          <div>
+            <h1 id="att-h1" class="page-h1" style="margin-bottom:4px;">University Attendance &amp; Target Calculator</h1>
+            <p class="section-sub">Calculate your current class attendance percentage or find out exactly how many consecutive lectures you need to reach 75%, 80%, or 85%.</p>
+          </div>
+        </header>
+
+        <div class="field-grid" style="grid-template-columns: 1fr 1fr; margin-top: 22px;">
+          <!-- Card A: Current percentage -->
+          <div class="field">
+            <h3 style="margin:0 0 4px;font-size:15px;">Current percentage</h3>
+            <p class="section-sub" style="margin:0 0 14px;">Quick attendance check from total vs. attended classes.</p>
+            <label for="total-classes">Total classes held</label>
+            <input type="number" id="total-classes" placeholder="e.g. 40" min="0" inputmode="numeric" />
+            <label for="attended-classes">Classes attended</label>
+            <input type="number" id="attended-classes" placeholder="e.g. 36" min="0" inputmode="numeric" />
+            <button type="button" class="btn btn-primary btn-sm" data-calc="attendance" style="margin-top:14px; align-self:flex-start;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h8M8 14h4"/>
+              </svg>
+              Calculate %
+            </button>
+
+            <div class="result" id="attendance-result" data-tier="" aria-live="polite" style="margin-top: 18px;">
+              <div class="result-grid">
+                <div class="result-hero" style="width:120px;height:120px;">
+                  <svg class="result-ring" viewBox="0 0 120 120" aria-hidden="true">
+                    <circle class="track" cx="60" cy="60" r="52"/>
+                    <circle class="meter" cx="60" cy="60" r="52" stroke-dasharray="326.73" stroke-dashoffset="326.73"/>
+                  </svg>
+                  <div style="text-align:center;">
+                    <div class="result-value" id="attendance-percentage" style="font-size:32px;">0%</div>
+                  </div>
+                </div>
+                <div class="result-info">
+                  <span class="result-classification" id="attendance-classification-text">—</span>
+                  <h3 class="result-heading">Current attendance</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card B: Target -->
+          <div class="field">
+            <h3 style="margin:0 0 4px;font-size:15px;">Classes needed for target</h3>
+            <p class="section-sub" style="margin:0 0 14px;">How many consecutive classes do you need to attend to hit your goal?</p>
+            <label for="current-attendance">Current attendance (%)</label>
+            <input type="number" id="current-attendance" placeholder="e.g. 78.5" min="0" max="100" step="0.1" inputmode="decimal" />
+            <label for="target-attendance">Target attendance (%)</label>
+            <input type="number" id="target-attendance" placeholder="e.g. 85" min="0" max="100" step="0.1" inputmode="decimal" />
+            <label for="current-total">Total classes so far</label>
+            <input type="number" id="current-total" placeholder="e.g. 40" min="0" inputmode="numeric" />
+            <button type="button" class="btn btn-primary btn-sm" data-calc="required" style="margin-top:14px; align-self:flex-start;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h8M8 14h4"/>
+              </svg>
+              Calculate
+            </button>
+
+            <div class="result" id="required-result" data-tier="" aria-live="polite" style="margin-top: 18px;">
+              <div class="result-grid">
+                <div class="result-hero" style="width:120px;height:120px;">
+                  <svg class="result-ring" viewBox="0 0 120 120" aria-hidden="true">
+                    <circle class="track" cx="60" cy="60" r="52"/>
+                    <circle class="meter" cx="60" cy="60" r="52" stroke-dasharray="326.73" stroke-dashoffset="326.73"/>
+                  </svg>
+                  <div style="text-align:center;">
+                    <div class="result-value" id="required-classes" style="font-size:36px;">0</div>
+                    <div class="result-suffix">classes</div>
+                  </div>
+                </div>
+                <div class="result-info">
+                  <span class="result-classification" id="required-classification-text">—</span>
+                  <h3 class="result-heading">More classes to attend</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ IN-DEPTH ATTENDANCE GUIDE ============================ -->
+      <section class="content-wrap" aria-label="Attendance Guide">
+
+        <!-- Why Attendance Matters -->
+        <article class="guide-card">
+          <h2>Why University Attendance Tracking is Essential</h2>
+          <p>In almost all higher education institutions—including universities across Pakistan governed by Higher Education Commission (HEC) policies, as well as universities in the US, UK, and Australia—maintaining a minimum class attendance of <strong>75% or 80%</strong> is a non-negotiable prerequisite to sit for midterm and semester final examinations.</p>
+          <p>Falling below this mandatory threshold carries serious consequences:</p>
+          <ul>
+            <li><strong>Examination Debarment:</strong> Revocation of your exam admit card for that course.</li>
+            <li><strong>"FA" (Fail on Attendance) Grade:</strong> Counted as an F on your permanent transcript, causing your semester GPA to plunge.</li>
+            <li><strong>Mandatory Course Repeat:</strong> Retaking the complete course in a later semester, delaying degree graduation and incurring additional tuition fees.</li>
+          </ul>
+        </article>
+
+        <!-- Current Percentage Formula -->
+        <article class="guide-card">
+          <h2>1. Calculating Your Current Attendance Percentage</h2>
+          <p>Your current attendance percentage represents the proportion of conducted lectures and laboratory sessions you have attended:</p>
+
+          <div class="formula-box">
+            <div class="formula-title">Current Attendance Formula</div>
+            <div class="formula-math">
+              Attendance % = (Classes Attended / Total Classes Held) × 100
+            </div>
+          </div>
+
+          <p>For example, if your instructor has conducted <strong>44 lectures</strong> and you were present for <strong>33 of them</strong>:</p>
+          <p><code>Attendance % = (33 / 44) × 100 = 75.0%</code> (Right on the threshold).</p>
+        </article>
+
+        <!-- Target Consecutive Classes Formula -->
+        <article class="guide-card">
+          <h2>2. The Consecutive Attendance Formula (Reaching Your Target)</h2>
+          <p>When you have missed classes and your percentage has dropped below your goal (such as 75% or 85%), you need to know: <em>"How many consecutive upcoming lectures must I attend without missing any to bring my average up?"</em></p>
+
+          <p>Let's derive the exact mathematical formula:</p>
+          <div class="formula-box">
+            <div class="formula-title">Target Consecutive Classes Formula</div>
+            <div class="formula-math">
+              Required Classes (x) = ⌈ (Total Held × (Target% − Current%)) / (100 − Target%) ⌉
+            </div>
+            <ul class="formula-legend">
+              <li><strong>Total Held:</strong> Total number of classes conducted in the course so far.</li>
+              <li><strong>Current%:</strong> Your current attendance percentage (between 0% and 100%).</li>
+              <li><strong>Target%:</strong> The required benchmark percentage (e.g., 75%, 80%, or 85%).</li>
+              <li><strong>⌈ ⌉ (Ceiling function):</strong> Round up to the nearest whole integer.</li>
+            </ul>
+          </div>
+
+          <h3>Worked Examples:</h3>
+          <div class="example-box">
+            <h4>Example A: Reaching the Mandatory 75% Threshold</h4>
+            <p>Suppose <strong>40 classes</strong> have been held, and your attendance is currently <strong>65%</strong> (meaning you attended 26 classes). You need 75%:</p>
+            <p><code>x = ⌈ (40 × (75 − 65)) / (100 − 75) ⌉ = ⌈ (40 × 10) / 25 ⌉ = ⌈ 400 / 25 ⌉ = 16 classes</code></p>
+            <p>You must attend the next <strong>16 consecutive classes</strong> without absence. Verification: (26 + 16) / (40 + 16) = 42 / 56 = <strong>75.0%</strong>!</p>
+          </div>
+
+          <div class="example-box">
+            <h4>Example B: Bumping Attendance from 78% to 85%</h4>
+            <p>Suppose <strong>50 classes</strong> have taken place, and your attendance is <strong>78%</strong>. You want an 85% safety buffer:</p>
+            <p><code>x = ⌈ (50 × (85 − 78)) / (100 − 85) ⌉ = ⌈ (50 × 7) / 15 ⌉ = ⌈ 350 / 15 ⌉ = ⌈ 23.33 ⌉ = 24 classes</code></p>
+            <p>You must attend the next <strong>24 consecutive classes</strong>.</p>
+          </div>
+        </article>
+
+        <!-- The 100% Impossibility & Downward Spiral -->
+        <article class="guide-card">
+          <h2>The Mathematical Reality: Why 100% is Impossible Once a Class is Missed</h2>
+          <p>A frequent question asked by students is whether they can recover back to 100% attendance. Mathematically:</p>
+          <p><code>Attendance % = (Classes Attended + x) / (Total Held + x)</code></p>
+          <p>If you have missed even a single class, <code>Classes Attended &lt; Total Held</code>. Therefore, the numerator will always remain strictly smaller than the denominator for any finite number of future classes <em>x</em>. You can approach 98% or 99% asymptotically, but you can never mathematically reach 100.0%.</p>
+
+          <h3>The Downward Spiral: Why Missing Future Classes is Costly</h3>
+          <p>Every additional class you miss increases the total denominator without increasing your numerator. If you have 30 attended out of 40 classes (75%), and you miss just 2 more classes:</p>
+          <p><code>New Percentage = 30 / 42 = 71.4% (Below the 75% exam threshold!)</code></p>
+          <p>Use GPA Lab's Attendance Tracker weekly throughout the semester to ensure you never unexpectedly slip below the eligibility line.</p>
+        </article>
+
+        <!-- FAQs -->
+        <article class="guide-card">
+          <h2>Frequently Asked Questions About Attendance</h2>
+          <div class="faq-list">
+            <details class="faq-item" open>
+              <summary class="faq-question">How is attendance percentage calculated?</summary>
+              <div class="faq-answer">
+                <p>Attendance percentage is calculated using the formula: <code>(Classes Attended / Total Classes Held) × 100</code>. For example, attending 36 out of 40 lectures equals 90% attendance.</p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary class="faq-question">How do you calculate how many consecutive classes you need to reach 75% attendance?</summary>
+              <div class="faq-answer">
+                <p>Use the formula: <code>ceil((Target% × Total Held - 100 × Attended) / (100 - Target%))</code>. It calculates the minimum consecutive future lectures you must attend without absence to raise your cumulative percentage to 75%.</p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary class="faq-question">Why is 75% attendance mandatory in universities?</summary>
+              <div class="faq-answer">
+                <p>In Pakistan (under Higher Education Commission guidelines) and globally, 75% attendance is the mandatory threshold ensuring students engage with coursework. Falling below 75% results in examination debarment or an FA (Fail Attendance) grade.</p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary class="faq-question">Is it possible to reach 100% attendance if I have missed one class?</summary>
+              <div class="faq-answer">
+                <p>No. Once a single class has been missed, achieving 100% attendance is mathematically impossible because the ratio of attended to total classes will always remain strictly less than 1, regardless of how many future classes you attend.</p>
+              </div>
+            </details>
+          </div>
+        </article>
+
+        <!-- Related Tools -->
+        <article class="guide-card">
+          <h2>Related Calculators</h2>
+          <div class="tools-nav-grid">
+            <a href="/cgpa-calculator/" class="tool-nav-card">
+              <span class="tool-nav-card-title">Cumulative GPA (CGPA) Calculator →</span>
+              <p class="tool-nav-card-desc">Calculate your multi-term weighted CGPA.</p>
+            </a>
+            <a href="/semester-gpa-calculator/" class="tool-nav-card">
+              <span class="tool-nav-card-title">Semester GPA Calculator →</span>
+              <p class="tool-nav-card-desc">Compute term GPA from course grades and credits.</p>
+            </a>
+            <a href="/grade-to-cgpa-calculator/" class="tool-nav-card">
+              <span class="tool-nav-card-title">Grades to CGPA Converter →</span>
+              <p class="tool-nav-card-desc">Convert letter grades to a 4.0 scale CGPA.</p>
+            </a>
+          </div>
+        </article>
+
+      </section>
+    </main>
+
+    <!-- Page Footer -->
+    <footer class="footnote">
+      <p style="margin-bottom: 8px;">
+        <a href="/">Home</a> · 
+        <a href="/cgpa-calculator/">CGPA Calculator</a> · 
+        <a href="/semester-gpa-calculator/">Semester GPA</a> · 
+        <a href="/grade-to-cgpa-calculator/">Grades to CGPA</a> · 
+        <a href="/attendance-calculator/">Attendance Tracker</a>
+      </p>
+      <p>© <span id="year"></span> GPA Lab · Built for university students · Developed with love by <a href="https://bilaldeveloper.vercel.app/" target="_blank" rel="noopener">Bilal A.</a></p>
+    </footer>
+  </div>
+
+  <div class="toast-stack" id="toastStack" aria-live="polite" aria-atomic="true"></div>
+  <script src="../js/script.js"></script>
+</body>
+</html>

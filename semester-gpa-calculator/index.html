@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light" />
+  
+  <!-- Primary Meta Tags -->
+  <title>Semester GPA Calculator | SGPA &amp; Term Grade Calculator — GPA Lab</title>
+  <meta name="title" content="Semester GPA Calculator | SGPA &amp; Term Grade Calculator — GPA Lab" />
+  <meta name="description" content="Calculate your semester GPA (SGPA) from course grades and credit hours. Weighted 4.0 grading scale formula, worked example, and free online university tool." />
+  <meta name="keywords" content="semester GPA calculator, SGPA calculator, calculate semester GPA, GPA calculator 4.0, term GPA calculator, university semester grade calculator, how to calculate semester GPA" />
+  <meta name="author" content="Bilal A." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://gpa-lab.vercel.app/semester-gpa-calculator/" />
+
+  <!-- Google Site Verification & AdSense -->
+  <meta name="google-site-verification" content="ByYxuuN9iqRJRVVobKN5QlBEx7YKzridIw8mNf0FFVc" />
+  <meta name="google-adsense-account" content="ca-pub-8901367047024233" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://gpa-lab.vercel.app/semester-gpa-calculator/" />
+  <meta property="og:title" content="Semester GPA Calculator | SGPA &amp; Term Grade Calculator — GPA Lab" />
+  <meta property="og:description" content="Calculate your semester GPA (SGPA) from course grades and credit hours. Weighted 4.0 grading scale formula, worked example, and free online university tool." />
+  <meta property="og:image" content="https://gpa-lab.vercel.app/assets/og-image.png" />
+  <meta property="og:site_name" content="GPA Lab" />
+  <meta property="og:locale" content="en_US" />
+
+  <!-- Twitter / X Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://gpa-lab.vercel.app/semester-gpa-calculator/" />
+  <meta name="twitter:title" content="Semester GPA Calculator | SGPA &amp; Term Grade Calculator — GPA Lab" />
+  <meta name="twitter:description" content="Calculate your semester GPA (SGPA) from course grades and credit hours. Weighted 4.0 grading scale formula, worked example, and free online university tool." />
+  <meta name="twitter:image" content="https://gpa-lab.vercel.app/assets/og-image.png" />
+
+  <!-- Favicon & Stylesheet -->
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23244a3c' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 6.253v13'/%3E%3Cpath d='M12 6.253a4 4 0 0 1 4 4v0a4 4 0 0 1-8 0v0a4 4 0 0 1 4-4z'/%3E%3Cpath d='M4 20h16'/%3E%3C/svg%3E" />
+
+  <!-- Structured Data: JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://gpa-lab.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Semester GPA Calculator",
+            "item": "https://gpa-lab.vercel.app/semester-gpa-calculator/"
+          }
+        ]
+      },
+      {
+        "@type": "WebApplication",
+        "@id": "https://gpa-lab.vercel.app/semester-gpa-calculator/#webapp",
+        "name": "Semester GPA (SGPA) Calculator",
+        "url": "https://gpa-lab.vercel.app/semester-gpa-calculator/",
+        "applicationCategory": "EducationalApplication",
+        "operatingSystem": "All modern web browsers",
+        "browserRequirements": "Requires JavaScript",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "description": "Calculate your university semester GPA (SGPA) from course grades, grade points, and course credit hours on a weighted 4.0 grading scale."
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://gpa-lab.vercel.app/semester-gpa-calculator/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How is Semester GPA (SGPA) calculated?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Semester GPA is calculated by multiplying each course's grade points by its credit hours to determine quality points, summing all quality points earned in that term, and dividing by the total semester credit hours."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What happens if I receive an F in a course?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "An F grade carries 0.0 grade points, but its credit hours are still included in the total credit divisor. This severely drags down your semester GPA because you gain zero quality points while increasing the denominator."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do withdrawn (W) or Pass/Fail courses affect semester GPA?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "At most universities, an official course withdrawal (W) carries zero academic penalty and does not affect your GPA. Pass/Fail courses give credit toward graduation upon passing, but are excluded from GPA quality points calculations unless otherwise specified by your institution."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How many credits are typically taken in a university semester?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A standard full-time university semester typically ranges between 15 and 18 credit hours (roughly 4 to 6 courses). In engineering or medical programs in Pakistan and internationally, credit loads may reach up to 19 to 21 credits per semester."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body data-tool="gpa">
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div class="shell">
+
+    <!-- App Header -->
+    <header class="brand-row" aria-label="App header">
+      <div class="brand">
+        <a href="/" class="brand-link" aria-label="GPA Lab Home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+              <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+            </svg>
+          </span>
+          <div class="brand-text">
+            <strong>GPA Lab</strong>
+            <span>Academic performance for university students</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="header-actions">
+        <button type="button" class="btn btn-secondary btn-sm" id="sampleBtn" aria-label="Load sample courses">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+          Try sample data
+        </button>
+        <button type="button" class="btn btn-ghost btn-sm" id="resetBtn" aria-label="Reset all inputs">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/>
+          </svg>
+          Reset
+        </button>
+      </div>
+    </header>
+
+    <!-- Breadcrumb Navigation -->
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <ol class="breadcrumb-list">
+        <li><a href="/">Home</a></li>
+        <li class="breadcrumb-separator" aria-hidden="true">/</li>
+        <li class="breadcrumb-current" aria-current="page">Semester GPA Calculator</li>
+      </ol>
+    </nav>
+
+    <!-- Calculator Navigation Bar -->
+    <nav class="tabs" aria-label="Calculators navigation">
+      <a href="/cgpa-calculator/" class="tab-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-5"/>
+        </svg>
+        CGPA
+      </a>
+      <a href="/semester-gpa-calculator/" class="tab-btn is-active" aria-current="page">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18"/>
+        </svg>
+        Semester GPA
+      </a>
+      <a href="/grade-to-cgpa-calculator/" class="tab-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 4h16v16H4z"/><path d="M8 4v16M16 4v16M4 8h16M4 16h16"/>
+        </svg>
+        Grades → CGPA
+      </a>
+      <a href="/attendance-calculator/" class="tab-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>
+        </svg>
+        Attendance
+      </a>
+    </nav>
+
+    <main id="main-content">
+      <!-- Calculator Tool Card -->
+      <section id="gpa-calc" class="card" aria-labelledby="sgpa-h1">
+        <header class="section-head">
+          <div>
+            <h1 id="sgpa-h1" class="page-h1" style="margin-bottom:4px;">Semester GPA (SGPA) Calculator</h1>
+            <p class="section-sub">Enter each course, select your grade, and specify credit hours to compute your weighted term GPA.</p>
+          </div>
+        </header>
+
+        <div class="grade-info" aria-label="4.0 grading scale">
+          <strong>Standard 4.0 grading scale</strong>
+          <div class="grade-scale" style="margin-top:8px;">
+            <span>A+ · 4.0</span><span>A · 4.0</span><span>A− · 3.7</span>
+            <span>B+ · 3.3</span><span>B · 3.0</span><span>B− · 2.7</span>
+            <span>C+ · 2.3</span><span>C · 2.0</span><span>D · 1.0</span><span>F · 0.0</span>
+          </div>
+        </div>
+
+        <div class="row-table" data-table="gpa">
+          <div class="row-table-head row-gpcol" aria-hidden="true">
+            <span class="col-label">Course</span>
+            <span class="col-label">Grade</span>
+            <span class="col-label">Credits</span>
+            <span></span>
+          </div>
+          <div class="row-table-rows" id="gpa-rows" role="list"></div>
+        </div>
+        <button type="button" class="btn-add-row" data-add="gpa">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;vertical-align:-3px;margin-right:4px;" aria-hidden="true">
+            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+          Add another course
+        </button>
+
+        <div style="margin-top: 18px; display: flex; gap: 10px; flex-wrap: wrap;">
+          <button type="button" class="btn btn-primary" data-calc="gpa">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h8M8 14h4"/>
+            </svg>
+            Calculate GPA
+          </button>
+          <button type="button" class="btn btn-ghost" data-clear="gpa">Clear all</button>
+        </div>
+
+        <div class="result" id="gpa-result" data-tier="" aria-live="polite">
+          <div class="result-grid">
+            <div class="result-hero">
+              <svg class="result-ring" viewBox="0 0 120 120" aria-hidden="true">
+                <circle class="track" cx="60" cy="60" r="52"/>
+                <circle class="meter" cx="60" cy="60" r="52" stroke-dasharray="326.73" stroke-dashoffset="326.73"/>
+              </svg>
+              <div style="text-align:center;">
+                <div class="result-value" id="gpa-value">0.00</div>
+                <div class="result-suffix">out of 4.00</div>
+              </div>
+            </div>
+            <div class="result-info">
+              <span class="result-classification">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+                <span id="gpa-classification-text">—</span>
+              </span>
+              <h3 class="result-heading">Your semester GPA</h3>
+              <dl class="result-breakdown">
+                <div><dt>Courses</dt><dd id="gpa-course-count">0</dd></div>
+                <div><dt>Total credits</dt><dd id="gpa-credits">0</dd></div>
+                <div><dt>Quality points</dt><dd id="gpa-points">0</dd></div>
+              </dl>
+              <div class="result-actions">
+                <button type="button" class="btn btn-secondary btn-sm" data-copy="gpa">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                  </svg>
+                  Copy result
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ IN-DEPTH SEMESTER GPA GUIDE ============================ -->
+      <section class="content-wrap" aria-label="Semester GPA Guide">
+
+        <!-- What is Semester GPA -->
+        <article class="guide-card">
+          <h2>What is Semester GPA (SGPA)?</h2>
+          <p><strong>Semester Grade Point Average (SGPA)</strong> measures a university student’s academic achievement in a single academic term (e.g., Fall 2026 or Spring 2027). Unlike Cumulative GPA, which spans your entire academic history, Semester GPA evaluates only the courses enrolled in that specific term.</p>
+          <p>Your semester GPA determines critical milestones every term, including:</p>
+          <ul>
+            <li><strong>Dean's Honour Roll / Semester Honours:</strong> Typically awarded for achieving an SGPA of 3.50 or higher in a full credit load.</li>
+            <li><strong>Academic Good Standing:</strong> Maintaining at least a 2.00 SGPA to prevent academic warning or probation.</li>
+            <li><strong>Scholarship Continuance:</strong> Many academic and sports scholarships require an SGPA above 3.00 or 3.20 each term.</li>
+          </ul>
+        </article>
+
+        <!-- Semester GPA Formula -->
+        <article class="guide-card">
+          <h2>How Semester GPA is Calculated: Quality Points &amp; Credits</h2>
+          <p>Each course you take carries two values: a <strong>credit hour weighting</strong> (usually 1, 2, 3, or 4 credits) and a <strong>grade point</strong> (from 0.0 to 4.0). When multiplied together, they yield <strong>Quality Points</strong>.</p>
+
+          <div class="formula-box">
+            <div class="formula-title">Semester GPA Formula</div>
+            <div class="formula-math">
+              Semester GPA = ∑ (Course Grade Points_i × Course Credits_i) / ∑ (Course Credits_i)
+            </div>
+            <ul class="formula-legend">
+              <li><strong>Course Grade Points:</strong> Numerical value assigned to your letter grade (e.g., A = 4.0, B = 3.0).</li>
+              <li><strong>Course Credits:</strong> Number of credit hours assigned to the lecture or lab.</li>
+              <li><strong>Quality Points:</strong> <code>Grade Points × Credit Hours</code>. A 4-credit course with an A yields 16.0 quality points.</li>
+              <li><strong>Total Credits:</strong> Sum of all credit hours attempted in the semester.</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- Worked Numerical Example -->
+        <article class="guide-card">
+          <h2>Worked Example: Real University Semester Calculation</h2>
+          <p>Let's calculate the semester GPA for a student taking 5 courses in a standard university term:</p>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Course Title</th>
+                  <th>Grade Earned</th>
+                  <th>Grade Points</th>
+                  <th>Credit Hours</th>
+                  <th>Quality Points Earned</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Calculus II</strong></td>
+                  <td>A−</td>
+                  <td>3.70</td>
+                  <td>4</td>
+                  <td>3.70 × 4 = <strong>14.80</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>Physics I (Mechanics)</strong></td>
+                  <td>B+</td>
+                  <td>3.30</td>
+                  <td>4</td>
+                  <td>3.30 × 4 = <strong>13.20</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>English Communication</strong></td>
+                  <td>A</td>
+                  <td>4.00</td>
+                  <td>3</td>
+                  <td>4.00 × 3 = <strong>12.00</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>Intro to Programming (CS)</strong></td>
+                  <td>A−</td>
+                  <td>3.70</td>
+                  <td>3</td>
+                  <td>3.70 × 3 = <strong>11.10</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>Physics Laboratory</strong></td>
+                  <td>A</td>
+                  <td>4.00</td>
+                  <td>1</td>
+                  <td>4.00 × 1 = <strong>4.00</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>Semester Totals</strong></td>
+                  <td>—</td>
+                  <td>—</td>
+                  <td><strong>15 credits</strong></td>
+                  <td><strong>55.10 quality points</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="example-box">
+            <h4>Calculation Step</h4>
+            <p><code>Semester GPA = Total Quality Points / Total Credits = 55.10 / 15 = 3.6733... ≈ 3.67</code></p>
+            <p>Result: <strong>3.67 Semester GPA</strong> (Dean's List standing).</p>
+          </div>
+        </article>
+
+        <!-- How to Use GPA Lab -->
+        <article class="guide-card">
+          <h2>How to Use GPA Lab's Semester GPA Calculator</h2>
+          <ol>
+            <li><strong>Enter Course Names:</strong> Type the course name or code (e.g., CS101, Linear Algebra) in the Course column.</li>
+            <li><strong>Select Letter Grade:</strong> Pick your earned or projected letter grade from the dropdown menu (e.g., A, A-, B+, B).</li>
+            <li><strong>Input Credit Hours:</strong> Enter the official credit hours allocated to each course.</li>
+            <li><strong>Add More Courses:</strong> Click <strong>Add another course</strong> as needed.</li>
+            <li><strong>Click Calculate GPA:</strong> Instantly receive your exact weighted GPA, quality point breakdown, and academic classification.</li>
+          </ol>
+        </article>
+
+        <!-- FAQs -->
+        <article class="guide-card">
+          <h2>Frequently Asked Questions About Semester GPA</h2>
+          <div class="faq-list">
+            <details class="faq-item" open>
+              <summary class="faq-question">How is Semester GPA (SGPA) calculated?</summary>
+              <div class="faq-answer">
+                <p>Semester GPA is calculated by multiplying each course's grade points by its credit hours to determine quality points, summing all quality points earned in that term, and dividing by the total semester credit hours.</p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary class="faq-question">What happens if I receive an F in a course?</summary>
+              <div class="faq-answer">
+                <p>An F grade contributes 0.0 grade points, but its credits remain in the denominator. For example, failing a 4-credit course produces 0 quality points while forcing your total quality points to be divided by 4 more credits, causing your GPA to plummet.</p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary class="faq-question">Do withdrawn (W) or Pass/Fail courses affect semester GPA?</summary>
+              <div class="faq-answer">
+                <p>Withdrawals (W) do not impact GPA calculations. Pass/Fail courses provide credit toward degree completion upon passing but carry no numerical grade points and are excluded from the GPA equation.</p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary class="faq-question">How many credits are typically taken in a university semester?</summary>
+              <div class="faq-answer">
+                <p>A standard full-time university semester typically consists of 15 to 18 credit hours (roughly 4 to 6 courses). Engineering and medical faculties often range up to 19 to 21 credit hours per semester.</p>
+              </div>
+            </details>
+          </div>
+        </article>
+
+        <!-- Related Tools -->
+        <article class="guide-card">
+          <h2>Related Calculators</h2>
+          <div class="tools-nav-grid">
+            <a href="/cgpa-calculator/" class="tool-nav-card">
+              <span class="tool-nav-card-title">Cumulative GPA (CGPA) Calculator →</span>
+              <p class="tool-nav-card-desc">Combine multiple semesters to find your overall cumulative CGPA.</p>
+            </a>
+            <a href="/grade-to-cgpa-calculator/" class="tool-nav-card">
+              <span class="tool-nav-card-title">Grades to CGPA Converter →</span>
+              <p class="tool-nav-card-desc">Convert letter grades across courses directly to CGPA.</p>
+            </a>
+            <a href="/attendance-calculator/" class="tool-nav-card">
+              <span class="tool-nav-card-title">Attendance Tracker →</span>
+              <p class="tool-nav-card-desc">Calculate required lectures to reach 75% or 80% attendance.</p>
+            </a>
+          </div>
+        </article>
+
+      </section>
+    </main>
+
+    <!-- Page Footer -->
+    <footer class="footnote">
+      <p style="margin-bottom: 8px;">
+        <a href="/">Home</a> · 
+        <a href="/cgpa-calculator/">CGPA Calculator</a> · 
+        <a href="/semester-gpa-calculator/">Semester GPA</a> · 
+        <a href="/grade-to-cgpa-calculator/">Grades to CGPA</a> · 
+        <a href="/attendance-calculator/">Attendance Tracker</a>
+      </p>
+      <p>© <span id="year"></span> GPA Lab · Built for university students · Developed with love by <a href="https://bilaldeveloper.vercel.app/" target="_blank" rel="noopener">Bilal A.</a></p>
+    </footer>
+  </div>
+
+  <div class="toast-stack" id="toastStack" aria-live="polite" aria-atomic="true"></div>
+  <script src="../js/script.js"></script>
+</body>
+</html>

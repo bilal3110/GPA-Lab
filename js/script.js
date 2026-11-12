@@ -52,31 +52,47 @@
     required:    { current: "", target: "", total: "" },
   };
 
-
   const $  = (s, root = document) => root.querySelector(s);
   const $$ = (s, root = document) => Array.from(root.querySelectorAll(s));
 
-  const tabsEl       = $("#tabs");
-  const tabIndicator = $(".tab-indicator", tabsEl);
-  const tabButtons   = $$(".tab-btn", tabsEl);
-  const sections     = {
-    cgpa:       $("#cgpa-calc"),
-    gpa:        $("#gpa-calc"),
-    grade:      $("#grade-calc"),
-    attendance: $("#attendance-calc"),
-  };
-  const rowsContainer = {
-    cgpa:  $("#cgpa-rows"),
-    gpa:   $("#gpa-rows"),
-    grade: $("#grade-rows"),
-  };
-  const emptyStates = {
-    cgpa: $("#cgpa-empty"),
-  };
-  const toastStack = $("#toastStack");
+  let tabsEl       = null;
+  let tabIndicator = null;
+  let tabButtons   = [];
 
+  const sections     = {};
+  const rowsContainer = {};
+  const emptyStates   = {};
+  let toastStack     = null;
+
+  function initDomReferences() {
+    tabsEl       = $("#tabs");
+    tabIndicator = tabsEl ? $(".tab-indicator", tabsEl) : null;
+    tabButtons   = tabsEl ? $$(".tab-btn[role='tab']", tabsEl) : [];
+
+    sections.cgpa       = $("#cgpa-calc");
+    sections.gpa        = $("#gpa-calc");
+    sections.grade      = $("#grade-calc");
+    sections.attendance = $("#attendance-calc");
+
+    rowsContainer.cgpa  = $("#cgpa-rows");
+    rowsContainer.gpa   = $("#gpa-rows");
+    rowsContainer.grade = $("#grade-rows");
+
+    emptyStates.cgpa = $("#cgpa-empty");
+    toastStack = $("#toastStack");
+  }
 
   function toast(message, variant = "info") {
+    if (!toastStack) {
+      toastStack = $("#toastStack");
+      if (!toastStack) {
+        toastStack = document.createElement("div");
+        toastStack.id = "toastStack";
+        toastStack.className = "toast-stack";
+        toastStack.setAttribute("aria-live", "polite");
+        document.body.appendChild(toastStack);
+      }
+    }
     const el = document.createElement("div");
     el.className = `toast toast--${variant}`;
     el.setAttribute("role", "status");
@@ -98,14 +114,19 @@
     if (!sections[name]) return;
     state.activeTab = name;
 
-    tabButtons.forEach((btn) => {
-      const selected = btn.dataset.tab === name;
-      btn.setAttribute("aria-selected", selected ? "true" : "false");
-      btn.tabIndex = selected ? 0 : -1;
-    });
+    if (tabButtons && tabButtons.length > 0) {
+      tabButtons.forEach((btn) => {
+        const selected = btn.dataset.tab === name;
+        btn.setAttribute("aria-selected", selected ? "true" : "false");
+        btn.tabIndex = selected ? 0 : -1;
+      });
+    }
+
     Object.entries(sections).forEach(([key, el]) => {
-      const isActive = key === name;
-      el.hidden = !isActive;
+      if (el) {
+        const isActive = key === name;
+        el.hidden = !isActive;
+      }
     });
 
     positionIndicator();
@@ -113,28 +134,14 @@
   }
 
   function positionIndicator() {
+    if (!tabButtons || tabButtons.length === 0 || !tabIndicator || !tabsEl) return;
     const activeBtn = tabButtons.find((b) => b.getAttribute("aria-selected") === "true");
-    if (!activeBtn || !tabIndicator) return;
+    if (!activeBtn) return;
     const navRect = tabsEl.getBoundingClientRect();
     const btnRect = activeBtn.getBoundingClientRect();
     tabIndicator.style.width = `${btnRect.width}px`;
     tabIndicator.style.transform = `translateX(${btnRect.left - navRect.left}px)`;
   }
-
-  tabsEl.addEventListener("keydown", (e) => {
-    if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
-    const idx = tabButtons.findIndex((b) => b === document.activeElement);
-    if (idx === -1) return;
-    e.preventDefault();
-    const dir = e.key === "ArrowRight" ? 1 : -1;
-    const next = (idx + dir + tabButtons.length) % tabButtons.length;
-    tabButtons[next].focus();
-    switchTab(tabButtons[next].dataset.tab);
-  });
-
-  tabButtons.forEach((btn) => btn.addEventListener("click", () => switchTab(btn.dataset.tab)));
-
-
 
   function buildRow(type, data = {}) {
     const row = document.createElement("div");
@@ -199,6 +206,7 @@
 
   function addRow(type, data = {}) {
     const container = rowsContainer[type];
+    if (!container) return;
     const rowEl = buildRow(type, data);
     container.appendChild(rowEl);
 
@@ -209,12 +217,15 @@
   }
 
   function wireRowEvents(row, type) {
-    row.querySelector(".btn-remove-row").addEventListener("click", () => removeRowEl(row, type));
+    const removeBtn = row.querySelector(".btn-remove-row");
+    if (removeBtn) {
+      removeBtn.addEventListener("click", () => removeRowEl(row, type));
+    }
     row.querySelectorAll("input, select").forEach((el) => {
       el.addEventListener("input", () => {
         syncFromDOM(type);
         const field = el.closest(".field") || el.parentElement;
-        field.classList.remove("has-error");
+        if (field) field.classList.remove("has-error");
         el.classList.remove("is-invalid");
       });
       el.addEventListener("change", () => syncFromDOM(type));
@@ -225,7 +236,7 @@
     row.classList.add("is-removing");
     row.addEventListener("animationend", () => {
       row.remove();
-      if (emptyStates[type] && rowsContainer[type].children.length === 0) {
+      if (emptyStates[type] && rowsContainer[type] && rowsContainer[type].children.length === 0) {
         emptyStates[type].hidden = false;
       }
       syncFromDOM(type);
@@ -234,6 +245,7 @@
   }
 
   function syncFromDOM(type) {
+    if (!rowsContainer[type]) return;
     const rows = rowsContainer[type].querySelectorAll(".row");
     const arr = Array.from(rows).map((r) => ({
       name:    (r.querySelector(".cell-name")?.value    || "").trim(),
@@ -247,6 +259,7 @@
 
   function validateRows(type) {
     const errors = [];
+    if (!rowsContainer[type]) return { ok: false, errors };
     const rows = rowsContainer[type].querySelectorAll(".row");
     rows.forEach((r, idx) => {
       r.querySelectorAll("input, select").forEach((el) => el.classList.remove("is-invalid"));
@@ -258,14 +271,18 @@
 
       if (!name) {
         const el = r.querySelector(".cell-name");
-        el.classList.add("is-invalid");
-        el.closest(".field") || el.parentElement.classList.add("has-error");
+        if (el) {
+          el.classList.add("is-invalid");
+          (el.closest(".field") || el.parentElement)?.classList.add("has-error");
+        }
         errors.push({ idx, field: "name", message: "Name is required" });
       }
       if (!credits || isNaN(numCredits) || numCredits <= 0) {
         const el = r.querySelector(".cell-credits");
-        el.classList.add("is-invalid");
-        el.closest(".field") || el.parentElement.classList.add("has-error");
+        if (el) {
+          el.classList.add("is-invalid");
+          (el.closest(".field") || el.parentElement)?.classList.add("has-error");
+        }
         errors.push({ idx, field: "credits", message: "Credits must be > 0" });
       }
 
@@ -273,23 +290,26 @@
         const gpa = parseFloat(r.querySelector(".cell-gpa")?.value);
         if (isNaN(gpa) || gpa < 0 || gpa > 4) {
           const el = r.querySelector(".cell-gpa");
-          el.classList.add("is-invalid");
-          el.closest(".field") || el.parentElement.classList.add("has-error");
+          if (el) {
+            el.classList.add("is-invalid");
+            (el.closest(".field") || el.parentElement)?.classList.add("has-error");
+          }
           errors.push({ idx, field: "gpa", message: "GPA must be 0 – 4" });
         }
       } else {
         const grade = r.querySelector(".cell-grade")?.value;
-        if (grade === "") {
+        if (grade === "" || grade == null) {
           const el = r.querySelector(".cell-grade");
-          el.classList.add("is-invalid");
-          el.closest(".field") || el.parentElement.classList.add("has-error");
+          if (el) {
+            el.classList.add("is-invalid");
+            (el.closest(".field") || el.parentElement)?.classList.add("has-error");
+          }
           errors.push({ idx, field: "grade", message: "Pick a grade" });
         }
       }
     });
     return { ok: errors.length === 0, errors };
   }
-
 
   function calculateCGPA() {
     const v = validateRows("cgpa");
@@ -386,8 +406,12 @@
   }
 
   function calculateAttendance() {
-    const total = parseFloat($("#total-classes").value);
-    const attended = parseFloat($("#attended-classes").value);
+    const totalEl = $("#total-classes");
+    const attendedEl = $("#attended-classes");
+    if (!totalEl || !attendedEl) return;
+
+    const total = parseFloat(totalEl.value);
+    const attended = parseFloat(attendedEl.value);
 
     clearFieldError("total-classes");
     clearFieldError("attended-classes");
@@ -409,7 +433,6 @@
     }
 
     const pct = (attended / total) * 100;
-    const cls = classifyAttendance(pct);
 
     renderResult({
       resultId:    "attendance-result",
@@ -421,14 +444,19 @@
       ring:        { max: 100 },
       skipBreakdown: true,
       copyId: "attendance",
-      summaryFn: (val, br) => `Current attendance: ${val}.`,
+      summaryFn: (val) => `Current attendance: ${val}.`,
     });
   }
 
   function calculateRequiredClasses() {
-    const cur  = parseFloat($("#current-attendance").value);
-    const tgt  = parseFloat($("#target-attendance").value);
-    const tot  = parseFloat($("#current-total").value);
+    const curEl = $("#current-attendance");
+    const tgtEl = $("#target-attendance");
+    const totEl = $("#current-total");
+    if (!curEl || !tgtEl || !totEl) return;
+
+    const cur = parseFloat(curEl.value);
+    const tgt = parseFloat(tgtEl.value);
+    const tot = parseFloat(totEl.value);
 
     ["current-attendance", "target-attendance", "current-total"].forEach(clearFieldError);
 
@@ -458,7 +486,7 @@
       ring:        { max: 30, scale: (v) => Math.min(v, 30) },
       skipBreakdown: true,
       copyId: "required",
-      summaryFn: (val) => targetMet ? `Target already met — keep it up!` : `Attend ${val} more consecutive classes to hit your target.`,
+      summaryFn: (val) => unreachable ? "100% attendance is impossible once a class is missed." : (targetMet ? "Target already met — keep it up!" : `Attend ${val} more consecutive classes to hit your target.`),
     });
   }
 
@@ -466,6 +494,8 @@
     const resultEl = $("#" + cfg.resultId);
     const valueEl  = $("#" + cfg.valueId);
     const classEl  = $("#" + cfg.classTextId);
+
+    if (!resultEl || !valueEl || !classEl) return;
 
     const cls = cfg.classify(cfg.value);
     resultEl.dataset.tier = cls.tier;
@@ -475,9 +505,12 @@
     classEl.textContent = cls.label;
 
     if (!cfg.skipBreakdown && cfg.breakdownIds) {
-      $("#" + cfg.breakdownIds.count).textContent   = cfg.breakdown.count.value;
-      $("#" + cfg.breakdownIds.credits).textContent = cfg.breakdown.credits.value;
-      $("#" + cfg.breakdownIds.points).textContent  = cfg.breakdown.points.value;
+      const cEl = $("#" + cfg.breakdownIds.count);
+      const crEl = $("#" + cfg.breakdownIds.credits);
+      const pEl = $("#" + cfg.breakdownIds.points);
+      if (cEl) cEl.textContent   = cfg.breakdown.count.value;
+      if (crEl) crEl.textContent = cfg.breakdown.credits.value;
+      if (pEl) pEl.textContent  = cfg.breakdown.points.value;
     }
 
     const ring = resultEl.querySelector(".result-ring .meter");
@@ -529,15 +562,22 @@
   }
 
   function persist() {
-    state.attendance = {
-      total:     $("#total-classes").value,
-      attended:  $("#attended-classes").value,
-    };
-    state.required = {
-      current: $("#current-attendance").value,
-      target:  $("#target-attendance").value,
-      total:   $("#current-total").value,
-    };
+    if ($("#total-classes")) {
+      state.attendance.total = $("#total-classes").value;
+    }
+    if ($("#attended-classes")) {
+      state.attendance.attended = $("#attended-classes").value;
+    }
+    if ($("#current-attendance")) {
+      state.required.current = $("#current-attendance").value;
+    }
+    if ($("#target-attendance")) {
+      state.required.target = $("#target-attendance").value;
+    }
+    if ($("#current-total")) {
+      state.required.total = $("#current-total").value;
+    }
+
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     } catch (_) { }
@@ -548,25 +588,34 @@
     try { saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null"); } catch (_) { saved = null; }
     if (!saved || typeof saved !== "object") return;
 
-    state.activeTab = saved.activeTab || "cgpa";
+    if (saved.activeTab && tabsEl) {
+      state.activeTab = saved.activeTab;
+    }
     ["cgpa", "gpa", "grade"].forEach((type) => {
       const rows = Array.isArray(saved[type]) ? saved[type] : [];
-      rowsContainer[type].innerHTML = "";
-      if (rows.length === 0) {
-        if (emptyStates[type]) emptyStates[type].hidden = false;
-        state[type] = [];
+      if (rowsContainer[type]) {
+        rowsContainer[type].innerHTML = "";
+        if (rows.length === 0) {
+          if (emptyStates[type]) emptyStates[type].hidden = false;
+          state[type] = [];
+        } else {
+          rows.forEach((r) => addRow(type, r));
+        }
       } else {
-        rows.forEach((r) => addRow(type, r));
+        state[type] = rows;
       }
     });
+
     if (saved.attendance) {
-      $("#total-classes").value    = saved.attendance.total    || "";
-      $("#attended-classes").value = saved.attendance.attended || "";
+      state.attendance = saved.attendance;
+      if ($("#total-classes"))    $("#total-classes").value    = saved.attendance.total    || "";
+      if ($("#attended-classes")) $("#attended-classes").value = saved.attendance.attended || "";
     }
     if (saved.required) {
-      $("#current-attendance").value = saved.required.current || "";
-      $("#target-attendance").value  = saved.required.target  || "";
-      $("#current-total").value      = saved.required.total   || "";
+      state.required = saved.required;
+      if ($("#current-attendance")) $("#current-attendance").value = saved.required.current || "";
+      if ($("#target-attendance"))  $("#target-attendance").value  = saved.required.target  || "";
+      if ($("#current-total"))      $("#current-total").value      = saved.required.total   || "";
     }
   }
 
@@ -576,7 +625,7 @@
                 state.required.current || state.required.target || state.required.total;
     if (has && !confirm("Reset all inputs across every calculator? This can't be undone.")) return;
     ["cgpa", "gpa", "grade"].forEach((t) => {
-      rowsContainer[t].innerHTML = "";
+      if (rowsContainer[t]) rowsContainer[t].innerHTML = "";
       state[t] = [];
       if (emptyStates[t]) emptyStates[t].hidden = false;
     });
@@ -613,17 +662,19 @@
       { name: "Communication",  grade: "4.0", credits: "2" },
     ];
     ["cgpa", "gpa", "grade"].forEach((type) => {
-      rowsContainer[type].innerHTML = "";
-      if (emptyStates[type]) emptyStates[type].hidden = true;
-      state[type].forEach((r) => addRow(type, r));
+      if (rowsContainer[type]) {
+        rowsContainer[type].innerHTML = "";
+        if (emptyStates[type]) emptyStates[type].hidden = true;
+        state[type].forEach((r) => addRow(type, r));
+      }
     });
     state.attendance = { total: "40", attended: "36" };
     state.required   = { current: "82", target: "85", total: "40" };
-    $("#total-classes").value     = "40";
-    $("#attended-classes").value  = "36";
-    $("#current-attendance").value = "82";
-    $("#target-attendance").value  = "85";
-    $("#current-total").value      = "40";
+    if ($("#total-classes"))     $("#total-classes").value     = "40";
+    if ($("#attended-classes"))  $("#attended-classes").value  = "36";
+    if ($("#current-attendance")) $("#current-attendance").value = "82";
+    if ($("#target-attendance"))  $("#target-attendance").value  = "85";
+    if ($("#current-total"))      $("#current-total").value      = "40";
     persist();
     toast("Sample data loaded — try the calculators", "success");
   }
@@ -631,7 +682,9 @@
   function clearTab(type) {
     const map = { cgpa: "CGPA", gpa: "GPA", grade: "Grades" };
     if (!confirm(`Clear all ${map[type] || type} inputs?`)) return;
-    rowsContainer[type].innerHTML = "";
+    if (rowsContainer[type]) {
+      rowsContainer[type].innerHTML = "";
+    }
     state[type] = [];
     if (emptyStates[type]) emptyStates[type].hidden = false;
     document.querySelectorAll(`#${type}-result`).forEach((el) => {
@@ -661,8 +714,11 @@
   }
 
   function bindEvents() {
-    $("#sampleBtn").addEventListener("click", loadSample);
-    $("#resetBtn").addEventListener("click", resetAll);
+    const sampleBtn = $("#sampleBtn");
+    if (sampleBtn) sampleBtn.addEventListener("click", loadSample);
+
+    const resetBtn = $("#resetBtn");
+    if (resetBtn) resetBtn.addEventListener("click", resetAll);
 
     document.querySelectorAll("[data-empty-add]").forEach((b) => {
       b.addEventListener("click", () => addRow(b.dataset.emptyAdd));
@@ -701,11 +757,27 @@
         });
       });
 
+    if (tabsEl) {
+      tabsEl.addEventListener("keydown", (e) => {
+        if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+        const idx = tabButtons.findIndex((b) => b === document.activeElement);
+        if (idx === -1) return;
+        e.preventDefault();
+        const dir = e.key === "ArrowRight" ? 1 : -1;
+        const next = (idx + dir + tabButtons.length) % tabButtons.length;
+        tabButtons[next].focus();
+        switchTab(tabButtons[next].dataset.tab);
+      });
+
+      tabButtons.forEach((btn) => btn.addEventListener("click", () => switchTab(btn.dataset.tab)));
+    }
+
     document.addEventListener("keydown", (e) => {
       const isMac = navigator.platform.toUpperCase().includes("MAC");
       if (!(isMac ? e.metaKey : e.ctrlKey) || e.key !== "Enter") return;
+      const pageTool = document.body.dataset.tool || state.activeTab;
       const map = { cgpa: "cgpa", gpa: "gpa", grade: "grade", attendance: "attendance" };
-      const key = map[state.activeTab];
+      const key = map[pageTool];
       if (!key) return;
       e.preventDefault();
       document.querySelector(`[data-calc="${key}"]`)?.click();
@@ -725,24 +797,38 @@
   window.calculateAttendance = calculateAttendance;
   window.calculateRequiredClasses = calculateRequiredClasses;
 
-
   document.addEventListener("DOMContentLoaded", () => {
+    initDomReferences();
+
     const yearEl = document.getElementById("year");
     if (yearEl) yearEl.textContent = new Date().getFullYear();
 
     bindEvents();
-
     restore();
+
+    const pageTool = document.body.dataset.tool;
+    if (pageTool && sections[pageTool]) {
+      state.activeTab = pageTool;
+    }
+
     ["cgpa", "gpa", "grade"].forEach((type) => {
-      if (rowsContainer[type].children.length === 0) {
+      if (rowsContainer[type] && rowsContainer[type].children.length === 0) {
         if (emptyStates[type]) emptyStates[type].hidden = false;
         if (type === "gpa") addRow("gpa");
       }
     });
 
-    switchTab(state.activeTab || "cgpa");
-
-    requestAnimationFrame(positionIndicator);
-    window.addEventListener("resize", positionIndicator);
+    if (tabsEl && tabButtons.length > 0) {
+      const hash = window.location.hash.replace("#", "");
+      if (hash && sections[hash]) {
+        switchTab(hash);
+      } else {
+        switchTab(state.activeTab || "cgpa");
+      }
+      requestAnimationFrame(positionIndicator);
+      window.addEventListener("resize", positionIndicator);
+    } else if (pageTool && sections[pageTool]) {
+      sections[pageTool].hidden = false;
+    }
   });
 })();
